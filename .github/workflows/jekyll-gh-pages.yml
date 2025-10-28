@@ -1,0 +1,38 @@
+# Archivo: .github/workflows/deploy.yml
+name: Despliegue en GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Cambia a tu rama principal si no es 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout del Repositorio
+        uses: actions/checkout@v4
+      
+      # Si tienes dependencias o compilación (p.ej., Node.js), añádelo aquí.
+      # Si es puro HTML/CSS/JS, puedes saltar el paso de compilación.
+      
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: ⚙️ Preparar Artefacto de Despliegue
+        # Esta es la línea crucial: especificamos que el contenido 
+        # que queremos desplegar está en la subcarpeta 'pages'.
+        # La action lo tratará como la raíz del sitio.
+        run: |
+          mkdir deploy_artifact
+          cp -r pages/. deploy_artifact/
+
+      - name: ⬆️ Subir Artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'deploy_artifact' # Subir el contenido de esta carpeta
+
+      - name: Despliegue a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
