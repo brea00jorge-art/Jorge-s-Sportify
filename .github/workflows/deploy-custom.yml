@@ -20,13 +20,10 @@ jobs:
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: ⚙️ Preparar Artefacto de Despliegue
-        # Esta es la línea crucial: especificamos que el contenido 
-        # que queremos desplegar está en la subcarpeta 'pages'.
-        # La action lo tratará como la raíz del sitio.
+     - name: ⚙️ Preparar Artefacto de Despliegue
         run: |
           mkdir deploy_artifact
-          cp -r pages/. deploy_artifact/
+          cp -r project-root/pages/. deploy_artifact/ # << NUEVA RUTA
 
       - name: ⬆️ Subir Artefacto
         uses: actions/upload-pages-artifact@v3
