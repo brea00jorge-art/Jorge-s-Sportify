@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify</title>
+    <title>jorge's Spotify</title>
     <!--bootstrap-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
     <!-- CSS -->
     <link rel="stylesheet" href="../src/assets/css/components/cards.css">
+    <link rel="stylesheet" href="../src/assets/css/sidebar.css">
     <link rel="stylesheet" href="../src/assets/css/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -20,11 +21,51 @@
 
 <body>
     <div class="app-container">
-        <header>
-            <nav class="main-nav"></nav>
-        </header>
-
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+            </div>
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="nav-item ">
+                <i class="fas fa-search"></i>
+                <span>Buscar</span>
+            </a>
+            <a href="#" class="nav-item ">
+                <i class="fas fa-book"></i>
+                <span>Biblioteca</span>
+            </a>
+            <a href="#" class="nav-item ">
+                <i class="fas fa-plus-square"></i>
+                <span>Crear Playlist</span>
+            </a>
+            <a href="#" class="nav-item ">
+                <i class="fas fa-heart"></i>
+                <span>Favoritas</span>
+            </a>
+            <div class="playlists">
+                <div class="playlist-item">Rock Clasico</div>
+                <div class="playlist-item">Jazz</div>
+                <div class="playlist-item">90s</div>
+                <div class="playlist-item">Electronic</div>
+            </div>
+        </div>
         <main class="main-content">
+
+            <div class="header">
+                <div class="search-bar">
+                    <input id="searchInput" type="text" placeholder="¿Que quieres escuchar?">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>Usuario</span>
+                </div>
+            </div>
             <section>
                 <h2 class="section-title">Lista de canciones</h2>
                 <div class="card-grid" id="mainGrid"></div>

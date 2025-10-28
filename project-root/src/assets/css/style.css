@@ -21,10 +21,13 @@ body {
     overflow: hidden;
     height: 100vh;
 }
-.app-container{
+
+.app-container {
     display: flex;
-    height: calc(100vh,90px);
+    height: calc(100vh, 90px);
 }
+
+
 .main-content {
     flex: 1;
     overflow-y: auto;
