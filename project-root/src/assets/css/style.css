@@ -1,3 +1,30 @@
+:root {
+    --bg-dark: #121212;
+    --bg-secondary: #181818;
+    --bg-hover: #282828;
+    --text-primary: #ffffff;
+    --text-secondary: #dbd6d6b2;
+    --accent: #1db954;
+    --accent-hover: #93d71e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+.app-container{
+    display: flex;
+    height: calc(100vh,90px);
+}
 .main-content {
     flex: 1;
     overflow-y: auto;
@@ -8,11 +35,4 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 16px;
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 24px;
-    margin-bottom: 48px;
 }

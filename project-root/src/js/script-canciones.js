@@ -47,4 +47,58 @@ function createCard(songs, contineId) { //  creacion de card para la cancion
 }
 
 songs.forEach(song => createCard(song, 'mainGrid'));
+resentSongs.forEach(song => createCard(song, 'recentGrid'));
+
+// funcion de reproductor 
+function playSong(id) {
+    // cojemos todas las canciones que han sonado y que hay
+    const allSongs = [...songs, ...resentSongs]
+    const songfilter = allSongs.find(s => s.id === id);
+    if (!songfilter) return;
+    // si la cancion que mandamos a play es igual que la cancion sonada
+    if (currentSong?.id === id && isPaying) {
+        pausePlayBack();
+        return;
+    }
+    currentSong = songfilter;
+    duration = songfilter.duration;
+    currentTime = 0;
+    //funciones de refresca las cards y comienza una cancion de nuevo
+    updatePlayerUI();
+    startPlayBack();
+}
+// funcion para actualizar la vista del reproductor
+function updatePlayerUI() {
+    if (!currentSong) return;
+    document.getElementById('playerTitle').textContent = currentSong.title;
+    document.getElementById('playerArtist').textContent = currentSong.artist;
+    document.getElementById('playerImage').textContent = currentSong.image;
+    document.getElementById('totalTime').textContent = formatime(duration);
+}
+// funcion para empezar de nuevo
+function startPlayBack() {
+    isPlaying = true;
+    document.querySelector('#playPauseBtn i').className = 'fa fa-pause';
+
+    if (playInterval) clearInterval(playInterval);
+
+    playInterval = setInterval(() => {
+        currentTime++;
+        updateProgress();
+        if (currentTime >= duration) isRepeat ? currentSong = 0 : nextSong();
+    }, 1000);
+}
+function pausePlayBack() {
+    isPaying = false;
+    document.querySelector('#playPauseBtn i').className = 'fa fa-play';
+    if (playInterval) clearInterval(playInterval);
+
+}
+// actualizar barra de progreso
+function updateProgress() {
+    const progress = (currentTime / duration) * 100;
+    document.getElementById('progressBarFill').style.width = progress + '%';
+    document.getElementById('currentTime').textContent = formatime(currentTime);
+}
+
 

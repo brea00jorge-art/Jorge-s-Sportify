@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="../src/assets/css/style.css">
     <!--bootstrap-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../src/assets/css/components/cards.css">
+    <link rel="stylesheet" href="../src/assets/css/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <!-- jQuery -->
@@ -18,22 +19,25 @@
 </head>
 
 <body>
-    <header>
-        <nav class="main-nav"></nav>
-    </header>
+    <div class="app-container">
+        <header>
+            <nav class="main-nav"></nav>
+        </header>
 
-    <main class="main-content">
-        <section>
-            <h2 class="section-title">Lista de canciones</h2>
-            <div class="card-grid" id="mainGrid"></div>
-        </section>
-        <section>
-            <h2 class="section-title">Escuchado Recientemente</h2>
-            <div class="card-grid" id="recentGrid"></div>
-        </section>
-    </main>
+        <main class="main-content">
+            <section>
+                <h2 class="section-title">Lista de canciones</h2>
+                <div class="card-grid" id="mainGrid"></div>
+            </section>
+            <section>
+                <h2 class="section-title">Escuchado Recientemente</h2>
+                <div class="card-grid" id="recentGrid"></div>
+            </section>
+        </main>
+    </div>
 
-    <footer></footer>
+    <footer>
+    </footer>
 </body>
 
 </html>

@@ -1,8 +1,9 @@
+
 const songs = [
     {
         id: 1,
         title: "Veneka",
-        artist: "rawayana",
+        artist: "Rawayana",
         duration: 454,
         caratula: "../src/assets/images/veneka.webp",
         src: "../src/assets/audio/veneka.audio"
@@ -10,7 +11,7 @@ const songs = [
     {
         id: 2,
         title: "Veneka",
-        artist: "rawayana",
+        artist: "Rawayana",
         duration: 454,
         caratula: "../src/assets/images/veneka.webp",
         src: "../src/assets/audio/veneka.audio"
@@ -21,9 +22,9 @@ const resentSongs = [
     {
         id: 2,
         title: "The Cypher Effect Mic Check Session",
-        artist: "neutro",
+        artist: "Neutro",
         duration: 317,
-        caratula: "images/neutro.webp",
+        caratula: "../src/assets/images/neutro.webp",
         src: "../src/assets/audio/neutro.audio"
     }
 ];
@@ -57,4 +58,55 @@ function createCard(song, contineId) {
 // Inicializar con jQuery
 $(document).ready(function () {
     songs.forEach(song => createCard(song, 'mainGrid'));
+    resentSongs.forEach(song => createCard(song, 'recentGrid'));
 });
+
+// funcion de reproductor 
+function playSong(id) {
+    const allSongs = [...songs, ...resentSongs]
+    const songfilter = allSongs.find(s => s.id === id);
+    if (!songfilter) return;
+    // si la cancion que mandamos a play es igual que la cancion sonada
+    if (currentSong?.id === id && isPlaying) {
+        pausePlayBack();
+        return;
+    }
+    //le damos valor de curent a la cancion y atributos
+    currentSong = songfilter;
+    duration = songfilter.duration;
+    currentTime = 0;
+    //funciones de refresca las cards y comienza una cancion de nuevo
+    updatePlayerUI();
+    startPlayBack();
+}
+// funcion para actualizar la vista del reproductor
+function updatePlayerUI() {
+    if (!currentSong) return;
+    $('#playerTitle').text(currentSong.title);
+    $('#playerArtist').text(currentSong.artist);
+    $('#playerImage').text(currentSong.caratula);
+    $('#totalTime').text(formaTime(duration));
+}
+// funcion para empezar de nuevo
+function startPlayBack() {
+    isPlaying = true;
+    $('#playPauseBtn i').attr('class', 'fa fa-pause');
+
+    if (playInterval) clearInterval(playInterval);
+
+    playInterval = setInterval(() => {
+        currentTime++;
+        updateProgress();
+        if (currentTime >= duration) isRepeat ? currentSong = 0 : nextSong();
+    }, 1000);
+}
+function pausePlayBack() {
+    isPaying = false;
+    $('#playPauseBtn i').attr('class', 'fa fa-play');
+    if (playInterval) clearInterval(playInterval);
+}
+function updateProgress() {
+    const progress = (currentTime / duration) * 100;
+    $('#progressBarFill').css('width', progress + '%');
+    $('#currentTime').text(formatTime(currentTime));
+}
