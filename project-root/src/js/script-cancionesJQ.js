@@ -110,3 +110,15 @@ function updateProgress() {
     $('#progressBarFill').css('width', progress + '%');
     $('#currentTime').text(formatTime(currentTime));
 }
+function formatime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `$:{mins}:${secs.toString().padStart(2, '0')}`
+}
+function nextSong() {
+    const allSongs = [...songs, ...resentSongs];
+    let currentIndex = allSongs.findIndex(s => s.id === currentSong?.id);
+      if(isShuffle){
+        currentIndex = Math.floor(Math.random()*allSongs.length);
+    }else currentIndex = (currentIndex + 1) % allSongs.length;
+}

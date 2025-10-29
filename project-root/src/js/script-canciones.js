@@ -100,5 +100,20 @@ function updateProgress() {
     document.getElementById('progressBarFill').style.width = progress + '%';
     document.getElementById('currentTime').textContent = formatime(currentTime);
 }
+function formatime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `$:{mins}:${secs.toString().padStart(2, '0')}`;
+}// padStart para tener decimales el primero la cantidad y el segundo el numero
+function nextSong() {
+    const allSongs = [...songs, ...resentSongs];
+    let currentIndex = allSongs.findIndex(s => s.id === currentSong?.id);
+
+    if (isShuffle) {
+        currentIndex = Math.floor(Math.random() * allSongs.length);
+    } else currentIndex = (currentIndex + 1) % allSongs.length;
+
+
+}
 
 
