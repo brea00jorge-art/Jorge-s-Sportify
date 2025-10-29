@@ -4,7 +4,7 @@ name: Despliegue en GitHub Pages
 on:
   push:
     branches:
-      - main  # Cambia si tu rama principal tiene otro nombre
+      - Deploy-branch  # Cambia si tu rama principal tiene otro nombre
 
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir deploy_artifact
           # Copiamos TODO el contenido de project-root/pages/ a la carpeta temporal
-          cp -r project-root/pages/. deploy_artifact/
+          cp -r project-root/. deploy_artifact/
 
       - name: ⬆️ Subir Artefacto
         uses: actions/upload-pages-artifact@v3
