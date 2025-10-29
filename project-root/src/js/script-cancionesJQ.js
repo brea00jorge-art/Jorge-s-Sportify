@@ -118,7 +118,8 @@ function formatime(seconds) {
 function nextSong() {
     const allSongs = [...songs, ...resentSongs];
     let currentIndex = allSongs.findIndex(s => s.id === currentSong?.id);
-      if(isShuffle){
-        currentIndex = Math.floor(Math.random()*allSongs.length);
-    }else currentIndex = (currentIndex + 1) % allSongs.length;
+    if (isShuffle) {
+        currentIndex = Math.floor(Math.random() * allSongs.length);
+    } else currentIndex = (currentIndex + 1) % allSongs.length;
+    playSong(allSongs[currentIndex].id);
 }

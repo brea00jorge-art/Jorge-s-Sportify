@@ -112,7 +112,7 @@ function nextSong() {
     if (isShuffle) {
         currentIndex = Math.floor(Math.random() * allSongs.length);
     } else currentIndex = (currentIndex + 1) % allSongs.length;
-
+    playSong(allSongs[currentIndex].id);
 
 }
 
