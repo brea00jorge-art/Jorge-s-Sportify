@@ -113,7 +113,16 @@ function nextSong() {
         currentIndex = Math.floor(Math.random() * allSongs.length);
     } else currentIndex = (currentIndex + 1) % allSongs.length;
     playSong(allSongs[currentIndex].id);
-
 }
-
-
+function prevSong() {
+    //condicion que reinicia la anterior
+    if (currentTime > 3) {
+        currentTime = 0;
+        updateProgress();
+        return;
+    }
+    const allSongs = [...songs, ...resentSongs];
+    let currentIndex = allSongs.findIndex(s => s.id === currentSong?.id);
+    currentIndex = currentIndex <= 0 ? allSongs.length - 1 : currentSong - 1;
+     playSong(allSongs[currentIndex].id);
+}
