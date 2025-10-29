@@ -4,7 +4,7 @@ name: Despliegue en GitHub Pages
 on:
   push:
     branches:
-      - Desploy-branch  # Cambia si tu rama principal tiene otro nombre
+      - Deploy-branch  # Cambia si tu rama principal tiene otro nombre
 
 permissions:
   contents: read
