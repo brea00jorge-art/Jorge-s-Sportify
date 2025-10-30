@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 :root {
     --bg-dark: #121212;
     --bg-secondary: #181818;
@@ -7,6 +9,7 @@
     --accent: #1db954;
     --accent-hover: #93d71e;
     --color-Spotify: #17DB63;
+    --color-control: #fbfbfb;
 }
 
 * {
@@ -46,11 +49,18 @@ body {
 
 .header {
     display: flex;
-    justify-content: flex-end; /* Los hijos directos van a la derecha */
+    justify-content: flex-end;
+    /* Los hijos directos van a la derecha */
     align-items: center;
     margin-bottom: 32px;
-    position: relative; /* necesario para search-bar absolute */
-    height: 60px; /* opcional */
+    position: relative;
+    /* necesario para search-bar absolute */
+    height: 60px;
+    /* opcional */
+}
+
+.section-title {
+    font-family: Dosis;
 }
 
 /* Barra de búsqueda centrada */
@@ -58,7 +68,8 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px; /* ancho inicial */
+    width: 200px;
+    /* ancho inicial */
     height: 40px;
     transition: width 0.4s ease;
     z-index: 1;
@@ -107,7 +118,7 @@ body {
 }
 
 /* Perfil de usuario a la derecha */
-.user-profile{
+.user-profile {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -117,7 +128,7 @@ body {
     cursor: pointer;
 }
 
-.user-avatar{
+.user-avatar {
     width: 32px;
     height: 32px;
     background-color: #121212;
@@ -128,7 +139,7 @@ body {
 }
 
 
-.play-button{
+.play-button {
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -144,32 +155,79 @@ body {
     transition: all 0.3s;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
-.card:hover .play-button{
+
+.card:hover .play-button {
     opacity: 1;
     transform: translateY(0);
 }
-.card-title{
+
+.card-title {
     font-weight: bold;
     margin-bottom: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: white;
 }
+
 /* Cards */
+.card {
+    --bs-card-border-width: 0;
+    --bs-card-border-radius: 0.7rem;
+    padding: 14px;
+    background-color: transparent;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 🟩 Grid layout */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 24px;
+    gap: 15px;
     margin-bottom: 48px;
 }
 
+/* 🎵 Imagen de la canción */
 .card-image {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    width: 100%;
-    height: 150px;
-    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+
+/* 🌟 Efecto al pasar el mouse */
+.card:hover .card-image {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+/* 🌫️ Efecto visual sobre la tarjeta completa */
+.card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(4px);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* ✨ Texto */
+.card-title,
+.card-subtitle {
+    padding-left: 1rem;
+    color: var(--text-primary, #fff);
+}
+
+/* 🪄 Pequeña transición para suavizar el efecto */
+.card * {
+    transition: all 0.3s ease;
+}
+
 
 /* Sidebar */
 .sidebar {
@@ -189,6 +247,7 @@ body {
 }
 
 .nav-item {
+    height: 18px;
     display: flex;
     align-items: center;
     gap: 16px;
@@ -211,7 +270,7 @@ body {
 
 .nav-item i {
     color: white;
-    font-size: 24px;
+    font-size: 14px;
     width: 24px;
 }
 
@@ -220,21 +279,22 @@ body {
 }
 
 .playlists {
-    margin-top: 24px;
-    flex: 1;
+    display: block;
+    align-items: center;
     overflow-y: auto;
 }
 
 .playlists::-webkit-scrollbar {
-    width: 8px;
+    width: 4px;
 }
 
 .playlists::-webkit-scrollbar-thumb {
     background-color: #000;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 
 .playlist-item {
+    height: 18px;
     padding: 8px 12px;
     color: var(--text-secondary);
     cursor: pointer;
@@ -245,4 +305,132 @@ body {
 .playlist-item:hover {
     color: var(--text-primary);
     background-color: var(--bg-hover);
+}
+
+/*player*/
+.player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 90;
+    background-color: #14100C;
+    border-top: 5px solid #14100c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+.player-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 30%;
+}
+
+.now-playing-image {
+    width: 56px;
+    height: 56px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.now-playing-info {
+    flex: 1;
+}
+
+.now-playing-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.now-playing-artist {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.player-center {
+    width: 40%;
+    max-width: 722px;
+}
+
+.player-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: var(--color-control);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.control-button:hover {
+    color: var(--color-Spotify);
+    transform: scale(1.2);
+}
+
+.control-button.play-pause {
+    width: 32px;
+    height: 32px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-button.play-pause:hover {
+    transform: scale(1.3);
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background-color: #282828;
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress-bar:hover .progress-bar-fill::after {
+    opacity: 1;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    position: relative;
+}
+
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-50%);
+    height: 12px;
+    width: 12px;
+    background-color: var(--text-primary);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.player-right {
+    display: flex;
+    align-items: center;
+    grid-area: 8px;
+    width: 30%;
+    justify-content: flex-end;
 }

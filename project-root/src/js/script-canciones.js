@@ -1,29 +1,29 @@
-const songs = // creacion de cancion
-    [
-        {
-            id: 1,
-            title: "Veneka",
-            artist: "rawayana",
-            duration: 454,
-            caratula: "img/veneka.webp",
-            src: "assets\mp3\veneka.mp3"
-        }
-    ];
-const resentSongs = // cancion sonando
-    [
-        {
-            id: 2,
-            title: "The Cypher Effect Mic Check Session",
-            artist: "neutro",
-            duration: 317,
-            caratula: "img/neutro.webp",
-            src: "assets\mp3\neutro.mp3"
-        }
-    ];
+// 🎵 Datos de canciones
+const songs = [
+    {
+        id: 1,
+        title: "Veneka",
+        artist: "Rawayana",
+        duration: 454,
+        caratula: "img/veneka.webp",
+        src: "assets/mp3/veneka.mp3"
+    }
+];
 
-// estado del reproductor
+const resentSongs = [
+    {
+        id: 2,
+        title: "The Cypher Effect Mic Check Session",
+        artist: "Neutro",
+        duration: 317,
+        caratula: "img/neutro.webp",
+        src: "assets/mp3/neutro.mp3"
+    }
+];
+
+// 🎚️ Estado del reproductor
 let currentSong = null,
-    isPaying = false,
+    isPlaying = false,
     currentTime = 0,
     duration = 0,
     volumen = 0.7,
@@ -31,51 +31,55 @@ let currentSong = null,
     isRepeat = false,
     playInterval = null;
 
-function createCard(songs, contineId) { //  creacion de card para la cancion
+// 🎶 Crear tarjetas de canciones
+function createCard(song, containerId) {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-        <div class="card-image" style="background-image:url('${songs.caratula}')">
-            <div class="play-button" onclick="playSong(${songs.id})">
+        <div class="card-image" style="background-image:url('${song.caratula}')">
+            <div class="play-button" onclick="playSong(${song.id})">
                 <i class="fa-solid fa-play"></i>
             </div>
         </div>
-        <div class="card-title">${songs.title}</div>
-        <div class="card-subtitle">${songs.artist}</div>
-    `
-    document.getElementById(contineId).appendChild(card);
+        <div class="card-title">${song.title}</div>
+        <div class="card-subtitle">${song.artist}</div>
+    `;
+    document.getElementById(containerId).appendChild(card);
 }
 
+// 🧱 Cargar canciones
 songs.forEach(song => createCard(song, 'mainGrid'));
 resentSongs.forEach(song => createCard(song, 'recentGrid'));
 
-// funcion de reproductor 
+// ▶️ Reproducir canción
 function playSong(id) {
-    // cojemos todas las canciones que han sonado y que hay
-    const allSongs = [...songs, ...resentSongs]
-    const songfilter = allSongs.find(s => s.id === id);
-    if (!songfilter) return;
-    // si la cancion que mandamos a play es igual que la cancion sonada
-    if (currentSong?.id === id && isPaying) {
+    const allSongs = [...songs, ...resentSongs];
+    const song = allSongs.find(s => s.id === id);
+    if (!song) return;
+
+    if (currentSong?.id === id && isPlaying) {
         pausePlayBack();
         return;
     }
-    currentSong = songfilter;
-    duration = songfilter.duration;
+
+    currentSong = song;
+    duration = song.duration;
     currentTime = 0;
-    //funciones de refresca las cards y comienza una cancion de nuevo
+
     updatePlayerUI();
     startPlayBack();
 }
-// funcion para actualizar la vista del reproductor
+
+// 🧩 Actualizar la vista del reproductor
 function updatePlayerUI() {
     if (!currentSong) return;
     document.getElementById('playerTitle').textContent = currentSong.title;
     document.getElementById('playerArtist').textContent = currentSong.artist;
-    document.getElementById('playerImage').textContent = currentSong.image;
-    document.getElementById('totalTime').textContent = formatime(duration);
+    document.getElementById('playerImage').style.backgroundImage = `url('${currentSong.caratula}')`;
+    document.getElementById('totalTime').textContent = formatTime(duration);
 }
-// funcion para empezar de nuevo
+
+// ▶️ Iniciar reproducción simulada
 function startPlayBack() {
     isPlaying = true;
     document.querySelector('#playPauseBtn i').className = 'fa fa-pause';
@@ -85,37 +89,47 @@ function startPlayBack() {
     playInterval = setInterval(() => {
         currentTime++;
         updateProgress();
-        if (currentTime >= duration) isRepeat ? currentSong = 0 : nextSong();
+        if (currentTime >= duration) {
+            clearInterval(playInterval);
+            if (isRepeat) playSong(currentSong.id);
+            else nextSong();
+        }
     }, 1000);
 }
+
+// ⏸️ Pausar reproducción
 function pausePlayBack() {
-    isPaying = false;
+    isPlaying = false;
     document.querySelector('#playPauseBtn i').className = 'fa fa-play';
     if (playInterval) clearInterval(playInterval);
-
 }
-// actualizar barra de progreso
+
+// 🔁 Progreso
 function updateProgress() {
     const progress = (currentTime / duration) * 100;
     document.getElementById('progressBarFill').style.width = progress + '%';
-    document.getElementById('currentTime').textContent = formatime(currentTime);
+    document.getElementById('currentTime').textContent = formatTime(currentTime);
 }
-function formatime(seconds) {
+
+// ⏱️ Formato de tiempo
+function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `$:{mins}:${secs.toString().padStart(2, '0')}`;
-}// padStart para tener decimales el primero la cantidad y el segundo el numero
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ⏭️ Siguiente canción
 function nextSong() {
     const allSongs = [...songs, ...resentSongs];
     let currentIndex = allSongs.findIndex(s => s.id === currentSong?.id);
-
-    if (isShuffle) {
-        currentIndex = Math.floor(Math.random() * allSongs.length);
-    } else currentIndex = (currentIndex + 1) % allSongs.length;
+    currentIndex = isShuffle
+        ? Math.floor(Math.random() * allSongs.length)
+        : (currentIndex + 1) % allSongs.length;
     playSong(allSongs[currentIndex].id);
 }
+
+// ⏮️ Canción anterior
 function prevSong() {
-    //condicion que reinicia la anterior
     if (currentTime > 3) {
         currentTime = 0;
         updateProgress();
@@ -123,6 +137,77 @@ function prevSong() {
     }
     const allSongs = [...songs, ...resentSongs];
     let currentIndex = allSongs.findIndex(s => s.id === currentSong?.id);
-    currentIndex = currentIndex <= 0 ? allSongs.length - 1 : currentSong - 1;
-     playSong(allSongs[currentIndex].id);
+    currentIndex = currentIndex <= 0 ? allSongs.length - 1 : currentIndex - 1;
+    playSong(allSongs[currentIndex].id);
 }
+
+// 🎛️ Controles del reproductor
+document.getElementById('playPauseBtn').addEventListener('click', () => {
+    if (!currentSong) return playSong(songs[0].id);
+    if (isPlaying) pausePlayBack();
+    else startPlayBack();
+});
+
+document.getElementById('nextBtn').addEventListener('click', nextSong);
+document.getElementById('prevBtn').addEventListener('click', prevSong);
+
+document.getElementById('shuffleBtn').addEventListener('click', function () {
+    isShuffle = !isShuffle;
+    this.style.color = isShuffle ? 'var(--color-Spotify)' : 'var(--text-secondary)';
+});
+
+document.getElementById('repeatBtn').addEventListener('click', function () {
+    isRepeat = !isRepeat;
+    this.style.color = isRepeat ? 'var(--color-Spotify)' : 'var(--text-secondary)';
+});
+
+// 🎚️ Barra de progreso
+document.getElementById('progressBar').addEventListener('click', function (e) {
+    const rect = this.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    currentTime = percent * duration;
+    updateProgress();
+});
+
+// 🔊 Control de volumen
+document.getElementById('volumenBar').addEventListener('click', function (e) {
+    const rect = this.getBoundingClientRect();
+    volumen = (e.clientX - rect.left) / rect.width;
+    updateVolumen();
+});
+
+function updateVolumen() {
+    document.getElementById('volumenBarFill').style.width = (volumen * 100) + '%';
+    const volumeIcon = document.querySelector('#volumenBtn i');
+    if (volumen === 0) volumeIcon.className = 'fas fa-volume-mute';
+    else if (volumen < 0.5) volumeIcon.className = 'fas fa-volume-down';
+    else volumeIcon.className = 'fas fa-volume-up';
+}
+
+// 🔇 Botón de mute
+document.getElementById('volumenBtn').addEventListener('click', function () {
+    if (volumen > 0) {
+        this.dataset.lastVolume = volumen;
+        volumen = 0;
+    } else volumen = parseFloat(this.dataset.lastVolume) || 0.7;
+    updateVolumen();
+});
+
+// busqueda
+document.getElementById('searchInput').addEventListener('input',
+    function (e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const allSongs = [...songs, ...resentSongs];
+        const filtered = allSongs.filter(song =>
+            song.title.toLowerCase().includes(searchTerm) ||
+            song.artist.toLowerCase().includes(searchTerm)
+        );
+
+        // Limpiar contenedor
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = '';
+
+        // Si hay texto, muestra filtrados; si no, muestra todos
+        const results = searchTerm ? filtered : allSongs;
+        results.forEach(song => createCard(song, 'mainGrid'));
+    });
